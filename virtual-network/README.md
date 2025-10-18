@@ -189,13 +189,15 @@ An NSG controls inbound and outbound traffic to resources in your subnet or VM.
 
 ---
 
-✅ Summary: Updated Network Architecture
-|  Component	|            Subnet  	      |         Internet Access	        |Notes
-|  VM-Public	|        Public-Subnet      |     ✅ Inbound + Outbound  	    |Public IP + NSG
-|  VM-Private	|       Private-Subnet      |      ✅ Outbound only	          |Through NAT Gateway
-| NAT Gateway |Attached to Private-Subnet	|Provides secure outbound access	|No inbound exposure
-|  NSG-Public	|        Public-Subnet	    |      Controls traffic	          |Allows SSH/RDP/HTTP
+## ✅ Result
+You now have a fully functional Azure Virtual Network, ready to:
+- Host virtual machines (VMs)
+- Connect with VPN Gateways or Azure Bastion
+- Integrate with on-premises networks
 
 💬 Bottom line:
 - If your private VMs ever need to reach the internet (updates, external APIs, etc.), create a NAT Gateway.
 - If not — and they’re isolated database or backend systems — you can skip it.
+
+**To set up a VM, follow the guide using this link**
+🔗 [Azure VM Setup](https://github.com/PeterOyelegbin/azure-lab/tree/main/virtual-machine)
