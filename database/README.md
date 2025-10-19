@@ -1,4 +1,4 @@
-# Database and Cache Set up
+# 🗄 Database and Cache Set up
 In cloud environments, keeping your databases private (away from the public internet) is a key step in building secure and production-ready architectures.
 
 In this guide, I’ll walk you through setting up PostgreSQL and Redis inside a private database subnet in Azure, using only the Azure Portal (no CLI, Terraform, or PowerShell).
@@ -10,8 +10,8 @@ By the end, you’ll have a fully private database layer, accessible only within
 - Secure them using Private Endpoints
 - Test connectivity from a VM in the public subnet
 
-## Pre-requisite
-- Create a Virtual Network (VNet) with public, private, and DB subnets
+## 🗒 Pre-requisite
+- Create a Virtual Network (VNet) with public, private, DB, and Redis subnets [link](https://github.com/PeterOyelegbin/azure-lab/tree/main/virtual-machine)
 
 ---
 
@@ -72,7 +72,7 @@ After both databases are deployed:
 ## 🧩 Step 4: Test Connectivity from a Public Subnet VM
 - SSH into the VM in the public subnet:
   ```
-  ssh -i ./ppath/ azureuser@<public_ip_of_vm>
+  ssh -i <private-key-file-path> <username>@<public_ip_of_vm>
   ```
 - Install required tools:
   ```
