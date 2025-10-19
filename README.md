@@ -6,4 +6,5 @@ Here, you’ll find detailed documentation 📑 and code samples 💻 that highl
 ## 📌 Start Here
 1. 🏗[Virtual Network](https://github.com/PeterOyelegbin/azure-lab/tree/main/virtual-network)
 2. 🖥️[Virtual Machine](https://github.com/PeterOyelegbin/azure-lab/tree/main/virtual-machine)
-3. 
+3. 💾[Database & Cache](https://github.com/PeterOyelegbin/azure-lab/tree/main/database)
+4. 
