@@ -16,18 +16,20 @@ Design and configure a highly available 3-tier Architecture on Azure
   * Private App Subnet 1 (e.g., 10.0.2.0/24) - Application Tier AZ 1
   * Private App Subnet 2 (e.g., 10.0.3.0/24) - Application Tier AZ 2
   * Private Data Subnet (e.g., 10.0.4.0/24) - Database Tier
- 
+
 ### Configure Network Security
 - Create Network Security Groups:
   * Bastion-NSG: Allow SSH (port 22) from your IP only
   * Web-NSG: Allow HTTP (80), HTTPS (443) from the internet, SSH from Bastion-NSG
   * App-NSG: Allow traffic from Web-NSG on required ports, SSH from Bastion-NSG
   * DB-NSG: Allow MySQL/MariaDB (3306) from App-NSG only
+  <img width="1366" height="617" alt="image" src="https://github.com/user-attachments/assets/9cd4a7cc-3bb5-4afb-b895-8b77be642379" />
 
 ### Create Public IP and Load Balancer
 - Allocate a Public IP address
 - Create Application Gateway (or Load Balancer) for web tier
 - Configure NAT Gateway for outbound internet access from private subnets
+  <img width="1366" height="383" alt="image" src="https://github.com/user-attachments/assets/a7dfc3ec-e771-4e18-98cb-df4e14f30c34" />
 
 ### Create Bastion Host (Azure Bastion Service)
 - Deploy Azure Bastion service in the public subnet
