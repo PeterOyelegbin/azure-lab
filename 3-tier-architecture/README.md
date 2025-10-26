@@ -1,4 +1,4 @@
-# 3-tier Architecture (Project 1)
+# 3-Tier Architecture (Project 1)
 
 ## Scenario
 Design and configure a highly available 3-tier Architecture on Azure
