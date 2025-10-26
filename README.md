@@ -9,4 +9,5 @@ Here, you’ll find detailed documentation 📑 and code samples 💻 that highl
 3. 💾[Database & Cache](https://github.com/PeterOyelegbin/azure-lab/tree/main/database)
 4. [3-Tier Architecture](https://github.com/PeterOyelegbin/azure-lab/tree/main/3-tier-architecture)
 5. ⚖[Load Balancer](https://github.com/PeterOyelegbin/azure-lab/tree/main/load-balancer)
-6. 
+6. [Virtual Network Peering](https://github.com/PeterOyelegbin/azure-lab/tree/main/vnet-peering)
+7. 
