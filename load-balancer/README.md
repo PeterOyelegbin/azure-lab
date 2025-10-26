@@ -1,5 +1,4 @@
-# Load Balancer in Private Subnet (Project 2)
-
+# ⚖ Load Balancer in Private Subnet (Project 2)
 ## Scenario
 How do I attach backend VMs with private IP addresses to my public-facing load balancer in Azure?
 
@@ -12,65 +11,23 @@ To attach Azure VMs located in a private subnet, you create a Public Load Balanc
 ---
 
 ## Step-by-Step Implementation
-- Create a Virtual Network (VNet) with private and public subnets (in the same region)
-- Create a Network Security Group (NSG) with ports 80 and 22 open
-- Create a couple of VMs in the private subnet
-- Install the NGINX web server using the custom data (user data) option on both VMs
-- Create a Public Load Balancer and attach both VMs to its backend pool
-- Test
+1. Create a Virtual Network (VNet) with private and public subnets (in the same region)
+2. Create a Network Security Group (NSG) with ports 80 and 22 open
+3. Create a couple of VMs in the private subnet
+4. Install the NGINX web server using the custom data (user data) option on both VMs
+5. Create a Public Load Balancer and attach both VMs to its backend pool
+6. Test
 
 ---
 
 ## Detailed Azure Steps
-### 1. Create a Virtual Network with Public and Private Subnets
-In Azure, a VNet is equivalent to an AWS VPC.
-1.  In the Azure portal, go to **Virtual networks**.
-2.  Click **+ Create**.
-3.  **Basics Tab:**
-    *   **Resource group:** Create new (e.g., `Project2-RG`).
-    *   **Name:** `project2-vnet`.
-    *   **Region:** Choose your region (e.g., East US).
-4.  **IP Addresses Tab:**
-    *   **IPv4 address space:** `10.0.0.0/16`.
-    *   **Subnet name:** `public-subnet`.
-    *   **Subnet address range:** `10.0.1.0/24`.
-    *   Click **+ Add subnet**.
-    *   **Subnet name:** `private-subnet`.
-    *   **Subnet address range:** `10.0.2.0/24`.
-    *   Click **Add**.
-5.  Click **Review + create**, then **Create**.
+### Step 1: Create a Virtual Network with Public and Private Subnets
+[Steps to create a Virtual Network](https://github.com/PeterOyelegbin/azure-lab/tree/main/virtual-network) Part 2 to 3.
 
-### 2. Create a Network Security Group (NSG)
-An NSG in Azure functions like an AWS Security Group.
-1.  In the Azure portal, go to **Network security groups**.
-2.  Click **+ Create**.
-3.  **Basics:**
-    *   **Resource group:** Select `Project2-RG`.
-    *   **Name:** `project2-nsg`.
-    *   **Region:** Same as your VNet.
-4.  Click **Review + create**, then **Create**.
-5.  Once created, go into the NSG resource and navigate to **Inbound security rules**.
-6.  Add two inbound rules:
-    *   **Rule 1 (SSH):**
-        *   Source: `Any`
-        *   Source port ranges: `*`
-        *   Destination: `Any`
-        *   Destination port ranges: `22`
-        *   Protocol: `TCP`
-        *   Action: `Allow`
-        *   Priority: `100`
-        *   Name: `Allow-SSH`
-    *   **Rule 2 (HTTP):**
-        *   Source: `Any`
-        *   Source port ranges: `*`
-        *   Destination: `Any`
-        *   Destination port ranges: `80`
-        *   Protocol: `TCP`
-        *   Action: `Allow`
-        *   Priority: `110`
-        *   Name: `Allow-HTTP`
+### Step 2: Create a Network Security Group (NSG)
+[Steps to create a Network Security Group](https://github.com/PeterOyelegbin/azure-lab/tree/main/virtual-network) Part 6
 
-### 3. Create VMs in the Private Subnet
+### Step 3: Create VMs in the Private Subnet
 We will create VMs without public IPs, placing them directly in the private subnet.
 1.  In the Azure portal, go to **Virtual machines**.
 2.  Click **+ Create** -> **Azure virtual machine**.
@@ -103,7 +60,7 @@ We will create VMs without public IPs, placing them directly in the private subn
 6.  Click **Review + create**, then **Create**. Download the private key if you generated a new one.
 7.  **Repeat steps 2-6** to create a second VM named `web-vm-2`. In its custom data script, change the echo line to `echo "<h1>Hello from Web VM 2</h1>" | sudo tee /var/www/html/index.html`.
 
-### 4. Create a Public Load Balancer and Attach the VMs
+### Step 4: Create a Public Load Balancer and Attach the VMs
 This is the Azure equivalent of an Internet-facing ELB.
 1.  In the Azure portal, go to **Load balancers**.
 2.  Click **+ Create**.
@@ -147,9 +104,9 @@ This is the Azure equivalent of an Internet-facing ELB.
     *   **Idle timeout:** `4`.
 8.  Click **Review + create**, then **Create**.
 
-### 5. Test the Configuration
+### Step 5: Test the Configuration
 1.  After the deployment is complete, go to your **Load Balancer** resource `project2-lb`.
 2.  In the **Overview** section, find the **Frontend public IP address** and copy it.
 3.  Open a web browser and paste the public IP address into the address bar.
 4.  You should see either "Hello from Web VM 1" or "Hello from Web VM 2".
-5.  Refresh the page. You should see the response alternate between the two VMs, demonstrating the load balancer is distributing traffic.
+5.  Refresh the page. You should see the response alternate between the two VMs, demonstrating that the load balancer is distributing traffic.
