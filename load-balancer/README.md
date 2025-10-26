@@ -29,23 +29,23 @@ To attach Azure VMs located in a private subnet, you create a Public Load Balanc
 
 ### Step 3: Create VMs in the Private Subnet
 We will create VMs without public IPs, placing them directly in the private subnet.
-1.  In the Azure portal, go to **Virtual machines**.
-2.  Click **+ Create** -> **Azure virtual machine**.
+1.  In the Azure portal, go to **Virtual machines**
+2.  Click **Create** -> **Azure virtual machine**
 3.  **Basics Tab:**
-    *   **Resource group:** `Project2-RG`.
-    *   **Virtual machine name:** `web-vm-1`.
-    *   **Region:** Same as your VNet.
-    *   **Image:** `Ubuntu Server 20.04 LTS` (or a similar version).
-    *   **Size:** Standard_B1s (cheap for testing).
-    *   **Authentication type:** `SSH public key` (recommended) or `Password`.
-    *   **Username:** `azureuser`.
-    *   **SSH public key source:** Generate new key pair (or use existing).
+    *   **Resource group:** Select existing resources group
+    *   **Virtual machine name:** `web-vm-1`
+    *   **Region:** Same as your VNet
+    *   **Image:** `Ubuntu Server 20.04 LTS`
+    *   **Size:** Standard_B1s
+    *   **Authentication type:** `SSH public key`
+    *   **Username:** `azureuser`
+    *   **SSH public key source:** Generate new key pair (or use existing)
 4.  **Networking Tab (Crucial):**
-    *   **Virtual network:** `project2-vnet`.
-    *   **Subnet:** `private-subnet`.
-    *   **Public IP:** Select `None`. *This is the key to making it private.*
-    *   **NIC network security group:** Select `Advanced`.
-    *   **Configure network security group:** Select the `project2-nsg` we created earlier.
+    *   **Virtual network:** Select your VNet
+    *   **Subnet:** `private-subnet`
+    *   **Public IP:** `None`
+    *   **NIC network security group:** `Advanced`
+    *   **Configure network security group:** Select your NSG created earlier
 5.  **Management Tab:**
     *   Under **Custom data**, paste the following script to install NGINX (Azure's equivalent of AWS User Data).
     ```bash
@@ -62,51 +62,51 @@ We will create VMs without public IPs, placing them directly in the private subn
 
 ### Step 4: Create a Public Load Balancer and Attach the VMs
 This is the Azure equivalent of an Internet-facing ELB.
-1.  In the Azure portal, go to **Load balancers**.
-2.  Click **+ Create**.
+1.  In the Azure portal, go to **Load balancers**
+2.  Click **Create**
 3.  **Basics Tab:**
-    *   **Resource group:** `Project2-RG`.
-    *   **Name:** `project2-lb`.
-    *   **Region:** Same as your VNet.
-    *   **SKU:** `Standard`.
-    *   **Type:** `Public`.
-    *   **Tier:** `Regional`.
+    *   **Resource group:** Select existing resources group
+    *   **Name:** `web-lb`
+    *   **Region:** Same as your VNet
+    *   **SKU:** `Standard`
+    *   **Type:** `Public`
+    *   **Tier:** `Regional`
 4.  **Frontend IP configuration:**
-    *   Click **Add a frontend IP configuration**.
-    *   **Name:** `lb-frontend`.
-    *   **IP version:** `IPv4`.
-    *   **IP type:** `IP address`.
-    *   **Public IP address:** Create new, name it `lb-public-ip`.
+    *   Click **Add a frontend IP configuration**
+    *   **Name:** `lb-frontend`
+    *   **IP version:** `IPv4`
+    *   **IP type:** `IP address`
+    *   **Public IP address:** Create new, name it `lb-public-ip`
 5.  **Backend pools:**
-    *   Click **Add a backend pool**.
-    *   **Name:** `web-backend-pool`.
-    *   **Virtual network:** `project2-vnet`.
-    *   Under **Virtual machines**, click **Add**.
-    *   Select both `web-vm-1` and `web-vm-2`.
-    *   For each, you need to select the correct IP configuration (e.g., `ipconfig1`). Click **Add**.
+    *   Click **Add a backend pool**
+    *   **Name:** `web-backend-pool`
+    *   **Virtual network:** Select your VNet
+    *   Under **Virtual machines**, click **Add**
+    *   Select both `web-vm-1` and `web-vm-2`
+    *   For each, you need to select the correct IP configuration (e.g., `ipconfig1`). Click **Add**
 6.  **Health probes:**
-    *   Click **Add a health probe**.
-    *   **Name:** `http-80-probe`.
-    *   **Protocol:** `TCP`.
-    *   **Port:** `80`.
-    *   **Interval:** `5`.
+    *   Click **Add a health probe**
+    *   **Name:** `http-80-probe`
+    *   **Protocol:** `TCP`
+    *   **Port:** `80`
+    *   **Interval:** `5`
 7.  **Load balancing rules:**
-    *   Click **Add a load balancing rule**.
-    *   **Name:** `http-rule`.
-    *   **IP Version:** `IPv4`.
-    *   **Frontend IP address:** `lb-frontend`.
-    *   **Backend pool:** `web-backend-pool`.
-    *   **Protocol:** `TCP`.
-    *   **Port:** `80`.
-    *   **Backend port:** `80`.
-    *   **Health probe:** `http-80-probe`.
-    *   **Session persistence:** `None`.
-    *   **Idle timeout:** `4`.
-8.  Click **Review + create**, then **Create**.
+    *   Click **Add a load balancing rule**
+    *   **Name:** `http-rule`
+    *   **IP Version:** `IPv4`
+    *   **Frontend IP address:** `lb-frontend`
+    *   **Backend pool:** `web-backend-pool`
+    *   **Protocol:** `TCP`
+    *   **Port:** `80`
+    *   **Backend port:** `80`
+    *   **Health probe:** `http-80-probe`
+    *   **Session persistence:** `None`
+    *   **Idle timeout:** `4`
+8.  Click **Review + create**, then **Create**
 
 ### Step 5: Test the Configuration
-1.  After the deployment is complete, go to your **Load Balancer** resource `project2-lb`.
-2.  In the **Overview** section, find the **Frontend public IP address** and copy it.
-3.  Open a web browser and paste the public IP address into the address bar.
-4.  You should see either "Hello from Web VM 1" or "Hello from Web VM 2".
-5.  Refresh the page. You should see the response alternate between the two VMs, demonstrating that the load balancer is distributing traffic.
+1.  After the deployment is complete, go to your **Load Balancer** resource `web-lb`
+2.  In the **Overview** section, find the **Frontend public IP address** and copy it
+3.  Open a web browser and paste the public IP address into the address bar
+4.  You should see either "Hello from Web VM 1" or "Hello from Web VM 2"
+5.  Refresh the page. You should see the response alternate between the two VMs, demonstrating that the load balancer is distributing traffic
